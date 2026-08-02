@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISCGS Register — Ilado-Sagbo Community Grammar School</title>
+<meta name="description" content="Digital school register: student rolls, results, marking sheets and staff records, all processed locally in your browser.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">IS</span>
+      <div class="brand-text">
+        <strong>ISCGS Register</strong>
+        <span>Ilado-Sagbo Community Grammar School</span>
+      </div>
+    </div>
+
+    <nav class="nav" id="mainNav">
+      <button class="nav-item is-active" data-view="overview">
+        <span class="nav-num">01</span> Overview
+      </button>
+      <button class="nav-item" data-view="students">
+        <span class="nav-num">02</span> Student Registry
+      </button>
+      <button class="nav-item" data-view="results">
+        <span class="nav-num">03</span> E-Results
+      </button>
+      <button class="nav-item" data-view="marking">
+        <span class="nav-num">04</span> Marking Sheets
+      </button>
+      <button class="nav-item" data-view="staff">
+        <span class="nav-num">05</span> Staff Directory
+      </button>
+      <button class="nav-item" data-view="import">
+        <span class="nav-num">06</span> Import Data
+      </button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="privacy-chip" title="Nothing you import ever leaves this browser.">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        Stays on this device
+      </div>
+      <button class="link-btn" id="clearDataBtn">Clear all imported data</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-title">
+        <h1 id="viewTitle">Overview</h1>
+        <p id="viewSubtitle">A snapshot of the school register, drawn from whatever you've imported so far.</p>
+      </div>
+      <div class="topbar-actions">
+        <span class="session-tag" id="sessionTag">2025/2026 Session</span>
+        <button class="btn btn-ghost" id="topImportBtn">Import file</button>
+      </div>
+    </header>
+
+    <div class="viewport" id="viewport">
+      <!-- Views are rendered here by js/views.js -->
+    </div>
+  </main>
+</div>
+
+<input type="file" id="fileInput" accept=".xlsx,.xlsm,.xls,.csv" multiple hidden>
+<input type="file" id="bundleFileInput" accept=".xlsx,.xlsm,.xls" multiple hidden>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/db.js"></script>
+<script src="js/parsers.js"></script>
+<script src="js/views.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
