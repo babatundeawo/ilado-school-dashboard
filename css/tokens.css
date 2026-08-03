@@ -1,0 +1,48 @@
+/* =========================================================
+   tokens.css — design tokens for the light "premium ledger"
+   theme. Warm ivory surfaces, deep ink text, restrained gold
+   and teal accents, and the red margin-rule borrowed from
+   Nigerian exercise books as the recurring structural motif.
+   ========================================================= */
+:root{
+  /* Surfaces */
+  --page-bg:#faf8f2;
+  --surface-0:#ffffff;
+  --surface-1:#f6f3ea;
+  --surface-2:#efebdf;
+  --line-100:#eee9dc;
+  --line-200:#e4dfd0;
+  --line-300:#d6d0bd;
+
+  /* Ink */
+  --ink-950:#12182a;
+  --ink-800:#232c44;
+  --ink-600:#535d76;
+  --ink-400:#8790a3;
+
+  /* Accents */
+  --gold-400:#d9ac52;
+  --gold-500:#c0912e;
+  --gold-600:#a4761f;
+  --gold-tint:#faf1de;
+
+  --teal-600:#1f7a6e;
+  --teal-tint:#e6f2ef;
+
+  --red-600:#ae4429;
+  --red-tint:#fbeae3;
+
+  --white:#ffffff;
+
+  /* Fonts */
+  --font-display:'Fraunces', ui-serif, Georgia, serif;
+  --font-body:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Radii & shadow */
+  --radius-sm:7px;
+  --radius-md:12px;
+  --radius-lg:18px;
+  --shadow-1:0 1px 2px rgba(18,24,42,.04), 0 1px 1px rgba(18,24,42,.03);
+  --shadow-2:0 1px 2px rgba(18,24,42,.05), 0 12px 28px -14px rgba(18,24,42,.16);
+  --shadow-3:0 20px 48px -20px rgba(18,24,42,.22);
+}

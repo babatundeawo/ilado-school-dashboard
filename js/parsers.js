@@ -24,7 +24,11 @@ const Parsers = (() => {
   }
 
   function norm(s){
-    return String(s ?? "").replace(/\s+/g," ").trim();
+    const v = String(s ?? "").replace(/\s+/g," ").trim();
+    // Broken formula references in the source workbooks (#REF!, #ERROR!, #N/A…)
+    // should never surface as if they were real data.
+    if(/^#(REF|ERROR|N\/A|DIV\/0|VALUE|NULL|NAME)/i.test(v)) return "";
+    return v;
   }
   function slug(s){
     return norm(s).toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_+|_+$/g,"");
@@ -59,7 +63,14 @@ const Parsers = (() => {
   /* ---------------- Student Registry ---------------- */
   function parseStudentRegistry(workbook, fileName){
     const out = [];
-    workbook.SheetNames.forEach(sheetName => {
+
+    // Some registries repeat every student on a "GENERAL"/summary sheet *and*
+    // again on their own class sheet. Prefer class-coded sheets (JSS2A, SSS1B…)
+    // when they exist, so nobody gets counted twice.
+    const classLike = workbook.SheetNames.filter(n => /^[a-z]{2,5}\s*\d/i.test(n.trim()));
+    const sheetsToUse = classLike.length ? classLike : workbook.SheetNames;
+
+    sheetsToUse.forEach(sheetName => {
       const rows = sheetRows(workbook.Sheets[sheetName]);
       const headerIdx = findHeaderRowIndex(rows, [/s\/n/, /class/, /gender|sex/]);
       if(headerIdx === -1) return;
@@ -81,20 +92,28 @@ const Parsers = (() => {
         const other = cOther>-1 ? norm(r[cOther]) : "";
         const full = cFullName>-1 ? norm(r[cFullName]) : "";
         const name = full || [surname, first, other].filter(Boolean).join(" ");
-        if(!name) continue;
+        if(!name || /^0+$/.test(name)) continue;
         out.push({
           surname: surname || null,
           firstname: first || null,
           othername: other || null,
           name,
-          class: cClass>-1 ? norm(r[cClass]) : norm(sheetName),
+          class: norm(r[cClass]) || norm(sheetName),
           gender: cGender>-1 ? norm(r[cGender]).toUpperCase() : null,
           comment: cComment>-1 ? norm(r[cComment]) : null,
           source: `${fileName} — ${sheetName}`
         });
       }
     });
-    return out;
+
+    // Safety net: collapse any remaining exact name+class duplicates.
+    const seen = new Set();
+    return out.filter(s => {
+      const key = `${s.name.toLowerCase()}|${(s.class||"").toLowerCase()}`;
+      if(seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
   }
 
   /* ---------------- Marking Sheet ---------------- */
@@ -126,12 +145,12 @@ const Parsers = (() => {
       for(let i=headerIdx+1;i<rows.length;i++){
         const r = rows[i] || [];
         const name = norm(r[cName]);
-        if(!name) continue;
+        if(!name || /^0+$/.test(name)) continue;
         out.push({
           sheet: sheetName,
           file: fileName,
-          term: termGuess ? norm(termGuess) : null,
-          class: cClass>-1 ? norm(r[cClass]) : classGuess,
+          term: termGuess ? norm(termGuess).toUpperCase() : null,
+          class: norm(r[cClass]) || classGuess,
           name,
           gender: cGender>-1 ? norm(r[cGender]).toUpperCase() : null,
           attendance: toNum(r[cAttendance]),
@@ -147,20 +166,25 @@ const Parsers = (() => {
         });
       }
     });
-    return out;
-  }
 
-  /* ---------------- E-Result (per-class workbook, "... Db" sheets) ---------------- */
+    const seen = new Set();
+    return out.filter(m => {
+      const key = `${m.name.toLowerCase()}|${(m.class||"").toLowerCase()}|${(m.term||"").toLowerCase()}`;
+      if(seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
   function parseEResult(workbook, fileName){
     const out = [];
     const dbSheets = workbook.SheetNames.filter(n => /db\s*$/i.test(n));
     dbSheets.forEach(sheetName => {
       const rows = sheetRows(workbook.Sheets[sheetName]);
-      const fieldIdx = findHeaderRowIndex(rows, [/s\/n/, /name/], 6);
+      const fieldIdx = findHeaderRowIndex(rows, [/name/, /admission/], 6);
       if(fieldIdx === -1 || fieldIdx === 0) return;
       const fieldHeader = rows[fieldIdx];
       const groupHeader = rows[fieldIdx-1] || [];
-      const term = norm(sheetName).replace(/db\s*$/i, "").trim();
+      const term = norm(sheetName).replace(/db\s*$/i, "").trim().toUpperCase();
       const termOrdinal = (term.match(/^\d\w*/) || [""])[0].toLowerCase(); // e.g. "3rd"
 
       // base fields
@@ -194,7 +218,7 @@ const Parsers = (() => {
       for(let i=dataStart; i<rows.length; i++){
         const r = rows[i] || [];
         const name = cName>-1 ? norm(r[cName]) : "";
-        if(!name) continue;
+        if(!name || /^0+$/.test(name)) continue; // skip blanks and leftover template-formula artifacts
 
         const subjects = blockStarts.map(b => {
           const labels = fieldHeader.slice(b.col, b.end);
@@ -221,7 +245,7 @@ const Parsers = (() => {
           name,
           admissionNo: cAdm>-1 ? norm(r[cAdm]) : null,
           gender: cGender>-1 ? norm(r[cGender]).toUpperCase() : null,
-          class: cClass>-1 ? norm(r[cClass]) : fileName.replace(/\.[^.]+$/,""),
+          class: fileName.replace(/\.[^.]+$/,"").replace(/\s+/g,"").toUpperCase(),
           studentsInClass: cInClass>-1 ? toNum(r[cInClass]) : null,
           timesOpened: cOpened>-1 ? toNum(r[cOpened]) : null,
           timesPresent: cPresent>-1 ? toNum(r[cPresent]) : null,
@@ -230,7 +254,15 @@ const Parsers = (() => {
         });
       }
     });
-    return out;
+
+    const seen = new Set();
+    return out.filter(r => {
+      const idKey = (r.admissionNo || r.name).toLowerCase();
+      const key = `${idKey}|${(r.class||"").toLowerCase()}|${(r.term||"").toLowerCase()}`;
+      if(seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
   }
 
   /* ---------------- Staff Nominal Roll ---------------- */

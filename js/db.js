@@ -1,5 +1,5 @@
 /* =========================================================
-   db.js — tiny local-storage wrapper.
+   db.js — tiny local-storage wrapper, shared by every page.
    Everything imported into this app is parsed in the browser
    and saved ONLY to this browser's localStorage. Nothing is
    ever sent to a server (this site has no backend at all).
@@ -11,11 +11,11 @@ const DB = {
 
   _empty(){
     return {
-      students: [],      // {surname, firstname, othername, class, gender, comment, source}
-      results: [],        // {class, term, admissionNo, name, gender, subjects:[{subject, ca, exam, total, average}], ...}
-      marking: [],         // {class, term, name, gender, attendance, notebook, openday, textbook, schoolBase, teacherBase, caTotal, exam, totalScore}
+      students: [],
+      results: [],
+      marking: [],
       staff: { teaching: [], nonTeaching: [], corps: [] },
-      meta: { imports: [] } // log of {label, fileName, sheets, rows, importedAt}
+      meta: { imports: [] }
     };
   },
 
@@ -37,7 +37,6 @@ const DB = {
       console.error("Could not read local data, starting fresh.", e);
       this._cache = this._empty();
     }
-    // backfill any missing keys from older versions
     const empty = this._empty();
     for(const k in empty){ if(!(k in this._cache)) this._cache[k] = empty[k]; }
     return this._cache;

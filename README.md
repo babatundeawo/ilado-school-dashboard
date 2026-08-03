@@ -1,43 +1,39 @@
-# ISCGS Register — Presentation Build
+# ISCGS Register — Presentation Build (v2)
 
-This copy is preloaded with your school's actual records (student registry, e-results, marking sheets, staff roll), parsed straight from the workbooks you gave me. It opens with everything already in place — nothing to import, nothing to click through — ready for the presentation to the education officials.
+A multi-page, light-themed, mobile-friendly dashboard preloaded with Ilado-Sagbo Community Grammar School's real records — student registry, e-results, marking sheets, staff roll, and retirement/handover history. Ready for the presentation to the education officials: just double-click `index.html`.
+
+## What changed in this version
+
+- **Separate pages, not one app.** Each section is now its own HTML file (`index.html`, `students.html`, `results.html`, `marking.html`, `staff.html`, `retirement.html`, `import.html`) with its own small page-specific script in `js/pages/`. Shared code (`db.js`, `parsers.js`, `common.js`, `data.js`) is loaded once per page from `js/`.
+- **Modular CSS.** `css/tokens.css` holds the design tokens (colors, fonts), `css/base.css` holds shared layout/components, and `css/pages/*.css` holds the handful of rules unique to each page.
+- **Light theme.** Warm ivory surfaces, deep ink-navy text, restrained gold and teal accents, with the red margin-rule from Nigerian exercise books as the recurring structural motif.
+- **Mobile-friendly.** Below ~880px the sidebar becomes a proper off-canvas menu (tap the ☰ icon), tables scroll horizontally, and cards/stat grids reflow to one or two columns.
+- **New: Retirement & Handover page.** School history, the full succession of principals since 2005, the two 2026 retirement ceremonies (Mr Adeoti Oladejo Kolawole and Mr Ogundiran Ogunsola), and the handover to the incoming principal — pulled from the documents in your `RETIREMENT` folder. Bank account numbers on this page are blurred by default, same as staff contact details elsewhere.
+- **Duplicate and bad data cleaned up.** The student registry workbook listed every student twice (once on a "GENERAL" summary sheet, once on their own class sheet) — that's fixed, so the count dropped from 1,614 to the correct **806**. A handful of result-sheet rows also had leftover template-formula artifacts (literal `0`s and broken `#REF!`/`#ERROR!` cells from the original workbooks) which are now filtered out instead of showing up as junk entries. Class labels are now read consistently from each file rather than the messier, occasionally-typo'd in-sheet class column.
+- **Latest marking sheet merged in.** The newer marking workbook you sent (with 3rd-term data) has been merged with the original — 3rd term is new, and its 1st-term figures replaced the earlier version's for the classes it covers.
 
 ## ⚠️ This build contains real data — keep it local
 
-`js/data.js` in this folder contains your students' and staff's actual names, grades, attendance, and (for staff) phone numbers, emails, addresses and dates of birth, written out in plain text.
+`js/data.js` contains your students' and staff's actual names, grades, attendance, and (for staff) phone numbers, emails, addresses and dates of birth, in plain text. The Retirement page also contains a retiring principal's date of birth and family background (from the printed ceremony programme) and the school's bank account numbers (blurred by default).
 
 **Because of that:**
+- **Do not** upload this folder to GitHub (public or private), Google Drive shared links, WeTransfer, or anywhere outside the school.
+- **Do not** publish this with GitHub Pages or any other hosting.
+- Keep it on your laptop, for this presentation and similar internal use.
 
-- **Do not** upload this folder to GitHub (public *or* private — see note below), Google Drive shared links, WeTransfer, email attachments to anyone outside the school, or any other hosting/sharing service.
-- **Do not** publish this build with GitHub Pages. If you still want a public portfolio-style site later, use the earlier "no preloaded data" version instead, where each visitor imports their own copy locally.
-- Keep this folder on your laptop only. If you back up your laptop to cloud storage, that's normal and fine — the concern is specifically about *publishing* or *publicly sharing* this folder.
-- When you're done presenting, if you don't need this specific copy anymore, feel free to delete it.
+## How to use it
 
-*(On private repos: even a "Private" GitHub repository requires a paid plan to use with GitHub Pages, and the moment Pages publishes it, the live site is public regardless of the repo's visibility — private repos don't create a private website. That's why the safest option for real data is simply: don't publish it anywhere, keep it as local files.)*
+1. Copy the whole folder onto the laptop you'll present from.
+2. Double-click `index.html`. Everything is already loaded — no import step.
+3. Use the sidebar (or the ☰ menu on mobile/tablet) to move between Overview, Student Registry, E-Results, Marking Sheets, Staff Directory, Retirement & Handover, and Import Data.
+4. Staff contact details and the handover bank account numbers are blurred by default — click "👁 Reveal" only if you need to show them.
 
-## How to use it for the presentation
-
-1. Copy this whole folder onto the laptop you'll present from.
-2. Double-click `index.html` — it opens in your default browser with everything already loaded: Overview, Student Registry, E-Results, Marking Sheets, and Staff Directory.
-3. Staff phone numbers, emails, addresses and dates of birth are blurred by default in the Staff Directory — click "👁 Reveal sensitive fields" only if you actually need to show them to the officials.
-4. No internet connection is required for the data itself (it's all local), though the page does load its fonts and chart library from the internet the first time — if you'll be presenting somewhere with no wifi, open it once beforehand while online so your browser caches those.
-
-If double-clicking `index.html` gives your browser trouble loading local files, run this from inside the folder instead and then open `http://localhost:8000`:
+If double-clicking `index.html` gives your browser trouble with local files, run this from inside the folder and open `http://localhost:8000`:
 
 ```
 python3 -m http.server 8000
 ```
 
-## If you need to update the data later
+## Updating data later
 
-Go to the **Import Data** page — it still works exactly as before. Drop in an updated workbook (e.g. next term's e-results) and it replaces just that file's records, leaving everything else as-is. Updates are saved in that browser's local storage on that machine only.
-
-## What's in each section
-
-| Section | Source | What you'll see |
-|---|---|---|
-| Overview | all files | Total students, staff, class sizes, gender split, recent imports |
-| Student Registry | student registry workbook | Full roll, searchable/filterable by class and gender, CSV export |
-| E-Results | per-class result workbooks | Subject-average chart and per-student report breakdown, by class and term |
-| Marking Sheets | CA marking workbook | Attendance, notebook, textbook, exam and total-score table |
-| Staff Directory | staff nominal roll | Teaching / Non-teaching / Corps lists, sensitive fields blurred by default |
+Go to **Import Data**. Drop in an updated workbook (e.g. next term's e-results or an updated marking sheet) — it replaces just that file's records. You can also drop several files at once on the "drop everything here" zone and the app will figure out which is which.

@@ -3,15 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Overview — ISCGS Register</title>
-<meta name="description" content="Digital school register: student rolls, results, marking sheets, staff and retirement records.">
+<title>Marking Sheets — ISCGS Register</title>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/pages/overview.css">
+<link rel="stylesheet" href="css/pages/marking.css">
 </head>
 <body>
 
@@ -22,10 +21,10 @@
       <div class="brand-text"><strong>ISCGS Register</strong><span>Ilado-Sagbo Community Grammar School</span></div>
     </div>
     <nav class="nav">
-      <a class="nav-item is-active" href="index.html"><span class="nav-num">01</span> Overview</a>
+      <a class="nav-item" href="index.html"><span class="nav-num">01</span> Overview</a>
       <a class="nav-item" href="students.html"><span class="nav-num">02</span> Student Registry</a>
       <a class="nav-item" href="results.html"><span class="nav-num">03</span> E-Results</a>
-      <a class="nav-item" href="marking.html"><span class="nav-num">04</span> Marking Sheets</a>
+      <a class="nav-item is-active" href="marking.html"><span class="nav-num">04</span> Marking Sheets</a>
       <a class="nav-item" href="staff.html"><span class="nav-num">05</span> Staff Directory</a>
       <a class="nav-item" href="retirement.html"><span class="nav-num">06</span> Retirement &amp; Handover</a>
       <a class="nav-item" href="import.html"><span class="nav-num">07</span> Import Data</a>
@@ -44,8 +43,8 @@
       <button class="nav-trigger" id="navTrigger" aria-label="Open menu"><span></span></button>
       <div class="topbar-title">
         <span class="kicker">ISCGS Register</span>
-        <h1>Overview</h1>
-        <p>A snapshot of the school register, drawn from whatever you've imported so far.</p>
+        <h1>Marking Sheets</h1>
+        <p>Continuous assessment: attendance, notebook, textbook, open day and exam scores.</p>
       </div>
       <div class="topbar-actions">
         <span class="session-tag">2025/2026 Session</span>
@@ -56,16 +55,12 @@
   </main>
 </div>
 
-<input type="file" id="fileInput" accept=".xlsx,.xlsm,.xls,.csv" multiple hidden>
-<input type="file" id="bundleFileInput" accept=".xlsx,.xlsm,.xls" multiple hidden>
 <div class="toast" id="toast"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="js/data.js"></script>
 <script src="js/db.js"></script>
-<script src="js/parsers.js"></script>
 <script src="js/common.js"></script>
 <script src="js/nav.js"></script>
-<script src="js/pages/overview.js"></script>
+<script src="js/pages/marking.js"></script>
 </body>
 </html>
