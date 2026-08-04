@@ -71,7 +71,7 @@
           ${totalStudents ? `
             <div class="bar-row" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line-200)">
               <div class="bar-label">Male</div>
-              <div class="bar-track"><div class="bar-fill" style="width:${(male/totalStudents*100).toFixed(1)}%;background:linear-gradient(90deg,var(--teal-600),#164f47)"></div></div>
+              <div class="bar-track"><div class="bar-fill" style="width:${(male/totalStudents*100).toFixed(1)}%;background:linear-gradient(90deg,var(--green-500),var(--green-800))"></div></div>
               <div class="bar-value">${male}</div>
             </div>
             <div class="bar-row">

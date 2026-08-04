@@ -1,33 +1,41 @@
 /* =========================================================
-   tokens.css — design tokens for the light "premium ledger"
-   theme. Warm ivory surfaces, deep ink text, restrained gold
-   and teal accents, and the red margin-rule borrowed from
-   Nigerian exercise books as the recurring structural motif.
+   tokens.css — design tokens for the "green & white" theme.
+   Built around Nigeria's national green, on crisp white and
+   soft green-tinted surfaces, with gold used sparingly as a
+   premium accent and the red margin-rule from Nigerian
+   exercise books kept as the one deliberate structural motif.
    ========================================================= */
 :root{
   /* Surfaces */
-  --page-bg:#faf8f2;
+  --page-bg:#f6faf7;
   --surface-0:#ffffff;
-  --surface-1:#f6f3ea;
-  --surface-2:#efebdf;
-  --line-100:#eee9dc;
-  --line-200:#e4dfd0;
-  --line-300:#d6d0bd;
+  --surface-1:#eef6f1;
+  --surface-2:#e2eee6;
+  --line-100:#e4efe8;
+  --line-200:#d8e8de;
+  --line-300:#c3dccd;
 
   /* Ink */
-  --ink-950:#12182a;
-  --ink-800:#232c44;
-  --ink-600:#535d76;
-  --ink-400:#8790a3;
+  --ink-950:#0e1f16;
+  --ink-800:#203629;
+  --ink-600:#4c5d53;
+  --ink-400:#82938a;
 
-  /* Accents */
+  /* Primary — Nigerian green */
+  --green-300:#7fc9a0;
+  --green-400:#3aab6e;
+  --green-500:#02853f;
+  --green-600:#026b34;
+  --green-700:#01592b;
+  --green-800:#014222;
+  --green-900:#012e18;
+  --green-tint:#e6f5ec;
+
+  /* Secondary accents */
   --gold-400:#d9ac52;
   --gold-500:#c0912e;
   --gold-600:#a4761f;
   --gold-tint:#faf1de;
-
-  --teal-600:#1f7a6e;
-  --teal-tint:#e6f2ef;
 
   --red-600:#ae4429;
   --red-tint:#fbeae3;
@@ -42,7 +50,7 @@
   --radius-sm:7px;
   --radius-md:12px;
   --radius-lg:18px;
-  --shadow-1:0 1px 2px rgba(18,24,42,.04), 0 1px 1px rgba(18,24,42,.03);
-  --shadow-2:0 1px 2px rgba(18,24,42,.05), 0 12px 28px -14px rgba(18,24,42,.16);
-  --shadow-3:0 20px 48px -20px rgba(18,24,42,.22);
+  --shadow-1:0 1px 2px rgba(1,46,24,.05), 0 1px 1px rgba(1,46,24,.03);
+  --shadow-2:0 1px 2px rgba(1,46,24,.06), 0 12px 28px -14px rgba(1,46,24,.18);
+  --shadow-3:0 20px 48px -20px rgba(1,46,24,.26);
 }

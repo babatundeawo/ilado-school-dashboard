@@ -4,6 +4,9 @@ A multi-page, light-themed, mobile-friendly dashboard preloaded with Ilado-Sagbo
 
 ## What changed in this version
 
+- **Nigerian green & white theme.** The palette is now built around Nigeria's national green (deep green brand mark, active nav states, primary buttons, chart bars, class-size bars) on crisp white and soft green-tinted surfaces, with gold kept as a restrained secondary accent for ceremonial/premium touches, and the red exercise-book margin-rule kept as the one deliberate non-green accent.
+- **Deeper responsiveness.** An added tablet breakpoint tightens spacing before the mobile layout kicks in; page titles and stat numbers now scale fluidly with the viewport instead of jumping between fixed sizes; touch targets (nav items, buttons) are larger on mobile; tables get a subtle fade hint on their scrollable edge; and small-phone layouts stack search fields and buttons to full width instead of cramming them.
+
 - **Separate pages, not one app.** Each section is now its own HTML file (`index.html`, `students.html`, `results.html`, `marking.html`, `staff.html`, `retirement.html`, `import.html`) with its own small page-specific script in `js/pages/`. Shared code (`db.js`, `parsers.js`, `common.js`, `data.js`) is loaded once per page from `js/`.
 - **Modular CSS.** `css/tokens.css` holds the design tokens (colors, fonts), `css/base.css` holds shared layout/components, and `css/pages/*.css` holds the handful of rules unique to each page.
 - **Light theme.** Warm ivory surfaces, deep ink-navy text, restrained gold and teal accents, with the red margin-rule from Nigerian exercise books as the recurring structural motif.

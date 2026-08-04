@@ -1,5 +1,5 @@
 /* retirement.css — page-specific rules for Retirement & Handover */
-.kicker-label{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--gold-600);font-weight:700;margin-bottom:6px;}
+.kicker-label{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--green-600);font-weight:700;margin-bottom:6px;}
 .lede{color:var(--ink-600);font-size:14px;max-width:70ch;margin-bottom:16px;}
 .fine-print{color:var(--ink-600);font-size:12.5px;line-height:1.6;}
 
@@ -11,7 +11,7 @@
 .retiree-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
 .retiree-avatar{
   width:44px;height:44px;border-radius:50%;flex:none;
-  background:linear-gradient(155deg,var(--ink-950),var(--ink-800));color:var(--gold-400);
+  background:linear-gradient(155deg,var(--green-700),var(--green-900));color:var(--gold-400);
   font-family:var(--font-display);font-weight:700;font-size:13px;
   display:flex;align-items:center;justify-content:center;
 }

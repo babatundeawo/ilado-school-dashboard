@@ -84,11 +84,11 @@
     if(chart) chart.destroy();
     chart = new Chart(document.getElementById("resSubjectChart"), {
       type: "bar",
-      data: { labels: subjectNames, datasets: [{ label: "Class average (this term)", data: subjectAverages, backgroundColor: "#c0912e", borderRadius: 5 }] },
+      data: { labels: subjectNames, datasets: [{ label: "Class average (this term)", data: subjectAverages, backgroundColor: "#02853f", borderRadius: 5 }] },
       options: {
         responsive:true,
-        plugins:{ legend:{ display:false }, title:{ display:true, text:`${cls} — ${term}`, color:"#12182a", font:{ family:"Inter", size:12, weight:"600" } } },
-        scales:{ y:{ beginAtZero:true, max:100, grid:{ color:"#eee9dc" } }, x:{ grid:{ display:false } } }
+        plugins:{ legend:{ display:false }, title:{ display:true, text:`${cls} — ${term}`, color:"#0e1f16", font:{ family:"Inter", size:12, weight:"600" } } },
+        scales:{ y:{ beginAtZero:true, max:100, grid:{ color:"#d8e8de" } }, x:{ grid:{ display:false } } }
       }
     });
 
@@ -100,7 +100,7 @@
       <tr data-idx="${i}" style="cursor:pointer">
         <td>${r.sn ?? i+1}</td><td>${esc(r.name)}</td><td>${esc(r.admissionNo||"—")}</td>
         <td>${esc(r.gender||"—")}</td><td>${pct!==null ? pct+"%" : "—"}</td>
-        <td><span class="pill ${avg>=50?'pill-teal':avg!==null?'pill-red':'pill-muted'}">${avg!==null?avg.toFixed(1):"—"}</span></td>
+        <td><span class="pill ${avg>=50?'pill-green':avg!==null?'pill-red':'pill-muted'}">${avg!==null?avg.toFixed(1):"—"}</span></td>
       </tr>`;
     }).join("") || `<tr><td colspan="6" style="color:var(--ink-600)">No results match these filters.</td></tr>`;
     tbody.querySelectorAll("tr[data-idx]").forEach(tr => tr.addEventListener("click", () => showDrawer(rows[Number(tr.dataset.idx)])));
