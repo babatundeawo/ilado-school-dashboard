@@ -4,6 +4,10 @@ A multi-page, light-themed, mobile-friendly dashboard preloaded with Ilado-Sagbo
 
 ## What changed in this version
 
+- **Export to Google Contacts.** On the Staff Directory page, "📇 Export CSV for Google Contacts" downloads every teaching, non-teaching and corps member as one CSV in Google's own import format — name (split into given/family, since these rolls list surname first), phone (with the leading 0 restored, since Excel had stripped it), email, birthday, job title, department, address, and every remaining field from the roll (qualifications, dates of appointment/promotion/retirement, LGA of origin, grade/step, classes taught, etc.) folded into the Notes field so nothing is left out. Each category is tagged with a Group Membership (e.g. "ISCGS Teaching Staff") so they land in their own label in Google Contacts.
+  - **To import:** open [contacts.google.com](https://contacts.google.com) → **Import** (left sidebar) → **Select file** → choose the downloaded CSV → **Import**. Google creates the contacts and the group labels automatically.
+  - This is a one-time CSV import, not a live sync — if you update the staff roll later, re-export and re-import; Google will create duplicates for anyone already imported, so either delete the old batch first or only import new staff.
+
 - **Nigerian green & white theme.** The palette is now built around Nigeria's national green (deep green brand mark, active nav states, primary buttons, chart bars, class-size bars) on crisp white and soft green-tinted surfaces, with gold kept as a restrained secondary accent for ceremonial/premium touches, and the red exercise-book margin-rule kept as the one deliberate non-green accent.
 - **Deeper responsiveness.** An added tablet breakpoint tightens spacing before the mobile layout kicks in; page titles and stat numbers now scale fluidly with the viewport instead of jumping between fixed sizes; touch targets (nav items, buttons) are larger on mobile; tables get a subtle fade hint on their scrollable edge; and small-phone layouts stack search fields and buttons to full width instead of cramming them.
 

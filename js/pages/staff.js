@@ -38,6 +38,17 @@
   let revealed = false;
 
   root.innerHTML = `
+    <div class="card card-pad" style="margin-bottom:18px;display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap">
+      <div style="font-size:22px">📇</div>
+      <div style="flex:1;min-width:240px">
+        <strong style="display:block;margin-bottom:4px">Export to Google Contacts</strong>
+        <p style="color:var(--ink-600);font-size:13px;max-width:65ch">
+          Downloads one CSV with every staff member's phone, email, address, birthday, post and department, formatted
+          for Google's contact importer — names, roles and departments included, nothing left out.
+        </p>
+      </div>
+      <button class="btn btn-gold" id="gcExportBtn" style="align-self:center">📇 Export CSV for Google Contacts</button>
+    </div>
     <div class="card">
       <div class="controls-row">
         <div class="field"><label>Category</label>
@@ -56,6 +67,8 @@
         <table class="data-table" id="stfTable"><thead><tr id="stfHead"></tr></thead><tbody></tbody></table>
       </div>
     </div>`;
+
+  document.getElementById("gcExportBtn").addEventListener("click", () => Common.exportGoogleContactsCsv(data.staff));
 
   function maskVal(key, val){
     const v = val===null||val===undefined||val==="" ? "—" : String(val);
