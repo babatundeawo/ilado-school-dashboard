@@ -4,7 +4,7 @@
    and saved ONLY to this browser's localStorage. Nothing is
    ever sent to a server (this site has no backend at all).
    ========================================================= */
-const STORE_KEY = "iscgs_register_v1";
+const STORE_KEY = "iscgs_register_v2";
 
 const DB = {
   _cache: null,
@@ -15,7 +15,11 @@ const DB = {
       results: [],
       marking: [],
       staff: { teaching: [], nonTeaching: [], corps: [] },
-      meta: { imports: [] }
+      meta: { imports: [] },
+      school: null,
+      retirement: null,
+      resources: null,
+      events: []
     };
   },
 
@@ -38,7 +42,7 @@ const DB = {
       this._cache = this._empty();
     }
     const empty = this._empty();
-    for(const k in empty){ if(!(k in this._cache)) this._cache[k] = empty[k]; }
+    for(const k in empty){ if(!(k in this._cache) || this._cache[k]===undefined) this._cache[k] = empty[k]; }
     return this._cache;
   },
 
@@ -52,9 +56,19 @@ const DB = {
     }
   },
 
+  clearImportedOnly(){
+    // Keeps the narrative content (school/retirement/resources/events) which never
+    // comes from the Import page, and only clears register-style data.
+    const data = this.load();
+    data.students = []; data.results = []; data.marking = [];
+    data.staff = { teaching: [], nonTeaching: [], corps: [] };
+    data.meta = { imports: [] };
+    this.save();
+  },
+
   clearAll(){
     localStorage.removeItem(STORE_KEY);
-    this._cache = this._empty();
+    this._cache = window.__PRELOADED__ ? window.__PRELOADED__ : this._empty();
     this.save();
   },
 

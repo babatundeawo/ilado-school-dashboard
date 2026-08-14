@@ -10,6 +10,24 @@ const Common = (() => {
   }
   function uniq(arr){ return [...new Set(arr.filter(v => v !== null && v !== undefined && v !== ""))]; }
 
+  /* ---------------- Theme (light / dark, persisted) ---------------- */
+  const THEME_KEY = "iscgs_theme";
+  function applyTheme(mode){
+    document.documentElement.setAttribute("data-theme", mode);
+    document.querySelectorAll("[data-theme-btn]").forEach(b => b.classList.toggle("is-active", b.dataset.themeBtn === mode));
+  }
+  function initTheme(){
+    const saved = localStorage.getItem(THEME_KEY) || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    applyTheme(saved);
+    document.querySelectorAll("[data-theme-btn]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const mode = btn.dataset.themeBtn;
+        localStorage.setItem(THEME_KEY, mode);
+        applyTheme(mode);
+      });
+    });
+  }
+
   /* ---------------- Toast ---------------- */
   function toast(msg){
     const el = document.getElementById("toast");
@@ -29,11 +47,12 @@ const Common = (() => {
     drawer = document.createElement("div");
     drawer.className = "drawer";
     drawer.innerHTML = `
-      <div class="drawer-head"><h3 id="drawerTitle"></h3><button id="drawerClose" aria-label="Close">×</button></div>
+      <div class="drawer-head"><h3 id="drawerTitle"></h3><button id="drawerClose" aria-label="Close">\u00d7</button></div>
       <div class="drawer-body" id="drawerBody"></div>`;
     document.body.append(backdrop, drawer);
     backdrop.addEventListener("click", closeDrawer);
     drawer.querySelector("#drawerClose").addEventListener("click", closeDrawer);
+    document.addEventListener("keydown", (e) => { if(e.key === "Escape") closeDrawer(); });
   }
   function openDrawer(title, bodyHtml){
     ensureDrawer();
@@ -57,27 +76,48 @@ const Common = (() => {
     const sidebar = document.querySelector(".sidebar");
     const trigger = document.getElementById("navTrigger");
     if(!sidebar || !trigger) return;
-    let backdrop = document.querySelector(".sidebar-backdrop");
-    if(!backdrop){
-      backdrop = document.createElement("div");
-      backdrop.className = "sidebar-backdrop";
-      document.body.appendChild(backdrop);
+    let bd = document.querySelector(".sidebar-backdrop");
+    if(!bd){
+      bd = document.createElement("div");
+      bd.className = "sidebar-backdrop";
+      document.body.appendChild(bd);
     }
-    const open = () => { sidebar.classList.add("is-open"); backdrop.classList.add("is-open"); };
-    const close = () => { sidebar.classList.remove("is-open"); backdrop.classList.remove("is-open"); };
+    const open = () => { sidebar.classList.add("is-open"); bd.classList.add("is-open"); };
+    const close = () => { sidebar.classList.remove("is-open"); bd.classList.remove("is-open"); };
     trigger.addEventListener("click", open);
-    backdrop.addEventListener("click", close);
+    bd.addEventListener("click", close);
     sidebar.querySelectorAll(".nav-item").forEach(a => a.addEventListener("click", close));
   }
 
   /* ---------------- Clear-data control (present in every sidebar) ---------------- */
   function wireClearDataButton(){
     document.getElementById("clearDataBtn")?.addEventListener("click", () => {
-      if(confirm("Clear all imported data from this browser? This can't be undone.")){
-        DB.clearAll();
-        toast("All local data cleared.");
+      if(confirm("Clear all imported register data (students, results, marking, staff) from this browser? School profile and retirement pages are unaffected. This can't be undone.")){
+        DB.clearImportedOnly();
+        toast("Imported register data cleared.");
         setTimeout(() => location.reload(), 400);
       }
+    });
+  }
+
+  /* ---------------- Animated stat counters ---------------- */
+  function animateCount(el, target, duration=900){
+    if(!el) return;
+    const start = 0;
+    const t0 = performance.now();
+    function tick(now){
+      const p = Math.min(1, (now - t0) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(start + (target - start) * eased).toLocaleString();
+      if(p < 1) requestAnimationFrame(tick);
+      else el.textContent = target.toLocaleString();
+    }
+    requestAnimationFrame(tick);
+  }
+  function wireCounters(){
+    document.querySelectorAll("[data-count]").forEach(el => {
+      const target = Number(el.dataset.count) || 0;
+      animateCount(el, target);
     });
   }
 
@@ -131,7 +171,7 @@ const Common = (() => {
     DB.save();
     const parts = Object.entries(summary).filter(([,n])=>n>0).map(([k,n]) => `${n} ${k}`);
     let msg = parts.length ? `Imported: ${parts.join(", ")}.` : "Nothing recognisable was imported.";
-    if(unknownFiles.length) msg += ` Couldn't identify: ${unknownFiles.join(", ")}.`;
+    if(unknownFiles.length) msg += ` Could not identify: ${unknownFiles.join(", ")}.`;
     toast(msg);
     if(reloadAfter) setTimeout(() => location.reload(), 700);
     return summary;
@@ -159,10 +199,10 @@ const Common = (() => {
   function bundleDropzoneHtml(idSuffix=""){
     return `
       <div class="dropzone" id="bundleDrop${idSuffix}" data-bundle-drop>
-        <div style="font-size:26px;margin-bottom:8px">📥</div>
+        <div style="font-size:26px;margin-bottom:8px">\u{1F4E5}</div>
         <strong>Drop all your workbooks here</strong>
-        <span>Student registry, marking sheet, e-results, staff roll — drop them all at once, I'll sort out which is which.</span>
-        <div style="margin-top:14px"><button class="btn btn-gold btn-sm" type="button" data-bundle-browse>Or choose files…</button></div>
+        <span>Student registry, marking sheet, e-results, staff roll: drop them all at once, this will sort out which is which.</span>
+        <div style="margin-top:14px"><button class="btn btn-gold btn-sm" type="button" data-bundle-browse>Or choose files\u2026</button></div>
       </div>`;
   }
 
@@ -235,7 +275,7 @@ const Common = (() => {
     if(v===null || v===undefined || v==="") return "";
     const digits = String(v).replace(/\D/g,"");
     if(!digits) return "";
-    if(digits.length===10) return "0"+digits;          // leading 0 lost when Excel stored it as a number
+    if(digits.length===10) return "0"+digits;
     if(digits.length===13 && digits.startsWith("234")) return "+"+digits;
     return digits;
   }
@@ -244,7 +284,6 @@ const Common = (() => {
     return (list||[]).map(r => {
       const name = String(r[cfg.nameKey] || "").trim();
       if(!name) return null;
-      // These rolls list SURNAME first, then given names — e.g. "ADEOTI OLADEJO KOLAWOLE"
       const parts = name.split(/\s+/);
       const family = parts[0] || "";
       const given = parts.slice(1).join(" ");
@@ -304,6 +343,6 @@ const Common = (() => {
   return {
     esc, uniq, toast, openDrawer, closeDrawer, drawerEl, kvRows,
     wireClearDataButton, wireMobileNav, handleBundle, wireBundleDropzones, bundleDropzoneHtml,
-    exportCsv, importOneFile, exportGoogleContactsCsv
+    exportCsv, importOneFile, exportGoogleContactsCsv, initTheme, wireCounters, animateCount
   };
 })();

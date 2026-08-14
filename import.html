@@ -3,16 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Import Data — ISCGS Register</title>
+<title>Import Data · ISCGS Register</title>
+<meta name="description" content="Import or refresh student, results, marking and staff workbooks.">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/pages/import.css">
 </head>
 <body>
+<a class="skip-link" href="#pageContent">Skip to content</a>
 
 <div class="app">
   <aside class="sidebar" id="sidebar">
@@ -22,19 +24,26 @@
     </div>
     <nav class="nav">
       <a class="nav-item" href="index.html"><span class="nav-num">01</span> Overview</a>
-      <a class="nav-item" href="students.html"><span class="nav-num">02</span> Student Registry</a>
-      <a class="nav-item" href="results.html"><span class="nav-num">03</span> E-Results</a>
-      <a class="nav-item" href="marking.html"><span class="nav-num">04</span> Marking Sheets</a>
-      <a class="nav-item" href="staff.html"><span class="nav-num">05</span> Staff Directory</a>
-      <a class="nav-item" href="retirement.html"><span class="nav-num">06</span> Retirement &amp; Handover</a>
-      <a class="nav-item is-active" href="import.html"><span class="nav-num">07</span> Import Data</a>
+      <a class="nav-item" href="about.html"><span class="nav-num">02</span> School Profile</a>
+      <a class="nav-item" href="students.html"><span class="nav-num">03</span> Student Registry</a>
+      <a class="nav-item" href="results.html"><span class="nav-num">04</span> Term Records</a>
+      <a class="nav-item" href="marking.html"><span class="nav-num">05</span> Continuous Assessment</a>
+      <a class="nav-item" href="staff.html"><span class="nav-num">06</span> Staff Directory</a>
+      <a class="nav-item" href="retirement.html"><span class="nav-num">07</span> Retirement & Handover</a>
+      <a class="nav-item" href="events.html"><span class="nav-num">08</span> Events & Speeches</a>
+      <a class="nav-item" href="resources.html"><span class="nav-num">09</span> Inventory & Library</a>
+      <a class="nav-item is-active" href="import.html"><span class="nav-num">10</span> Import Data</a>
     </nav>
     <div class="sidebar-foot">
-      <div class="privacy-chip" title="Nothing you import ever leaves this browser.">
+      <div class="theme-toggle">
+        <button data-theme-btn="light">☀️ Light</button>
+        <button data-theme-btn="dark">🌙 Dark</button>
+      </div>
+      <div class="privacy-chip" title="Nothing here ever leaves this browser.">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
         Stays on this device
       </div>
-      <button class="link-btn" id="clearDataBtn">Clear all imported data</button>
+      <button class="link-btn" id="clearDataBtn">Clear imported register data</button>
     </div>
   </aside>
 
@@ -44,26 +53,33 @@
       <div class="topbar-title">
         <span class="kicker">ISCGS Register</span>
         <h1>Import Data</h1>
-        <p>Load your Excel workbooks below. Everything is processed locally in this browser.</p>
+        <p>Load or refresh the register from your own workbooks. Everything is parsed in this browser only.</p>
+      </div>
+      <div class="global-search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search everything… (Ctrl+K)" data-open-search readonly>
       </div>
       <div class="topbar-actions">
         <span class="session-tag">2025/2026 Session</span>
+        
       </div>
     </header>
-    <div class="page-content" id="pageContent"></div>
+
+    <div class="page-content" id="pageContent">
+<input type="file" id="fileInput" accept=".xlsx,.xlsm,.xls,.csv" multiple hidden>
+<input type="file" id="bundleFileInput" accept=".xlsx,.xlsm,.xls" multiple hidden>
+    </div>
   </main>
 </div>
 
-<input type="file" id="fileInput" accept=".xlsx,.xlsm,.xls,.csv" multiple hidden>
-<input type="file" id="bundleFileInput" accept=".xlsx,.xlsm,.xls" multiple hidden>
 <div class="toast" id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="js/data.js"></script>
 <script src="js/db.js"></script>
-<script src="js/parsers.js"></script>
 <script src="js/common.js"></script>
 <script src="js/nav.js"></script>
+<script src="js/parsers.js"></script>
 <script src="js/pages/import.js"></script>
 </body>
 </html>

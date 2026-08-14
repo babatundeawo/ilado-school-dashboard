@@ -1,46 +1,82 @@
-# ISCGS Register — Presentation Build (v2)
+# ISCGS Register v2
 
-A multi-page, light-themed, mobile-friendly dashboard preloaded with Ilado-Sagbo Community Grammar School's real records — student registry, e-results, marking sheets, staff roll, and retirement/handover history. Ready for the presentation to the education officials: just double-click `index.html`.
+A ground-up rebuild of the Ilado-Sagbo Community Grammar School dashboard: a
+modern, multi-page, fully offline site covering the student registry, staff
+directory, term and continuous-assessment coverage, the school's full
+profile, the 2026 retirement and handover, an events/speeches archive, and
+the complete property and library inventory.
 
-## What changed in this version
+## IMPORTANT: keep this local
 
-- **Export to Google Contacts.** On the Staff Directory page, "📇 Export CSV for Google Contacts" downloads every teaching, non-teaching and corps member as one CSV in Google's own import format — name (split into given/family, since these rolls list surname first), phone (with the leading 0 restored, since Excel had stripped it), email, birthday, job title, department, address, and every remaining field from the roll (qualifications, dates of appointment/promotion/retirement, LGA of origin, grade/step, classes taught, etc.) folded into the Notes field so nothing is left out. Each category is tagged with a Group Membership (e.g. "ISCGS Teaching Staff") so they land in their own label in Google Contacts.
-  - **To import:** open [contacts.google.com](https://contacts.google.com) → **Import** (left sidebar) → **Select file** → choose the downloaded CSV → **Import**. Google creates the contacts and the group labels automatically.
-  - This is a one-time CSV import, not a live sync — if you update the staff roll later, re-export and re-import; Google will create duplicates for anyone already imported, so either delete the old batch first or only import new staff.
+This is a **private, local-only tool**. `js/data.js` contains real information:
+student names and classes, staff phone numbers, emails, home addresses, dates
+of birth, and the school's bank account numbers. Do **not**:
 
-- **Nigerian green & white theme.** The palette is now built around Nigeria's national green (deep green brand mark, active nav states, primary buttons, chart bars, class-size bars) on crisp white and soft green-tinted surfaces, with gold kept as a restrained secondary accent for ceremonial/premium touches, and the red exercise-book margin-rule kept as the one deliberate non-green accent.
-- **Deeper responsiveness.** An added tablet breakpoint tightens spacing before the mobile layout kicks in; page titles and stat numbers now scale fluidly with the viewport instead of jumping between fixed sizes; touch targets (nav items, buttons) are larger on mobile; tables get a subtle fade hint on their scrollable edge; and small-phone layouts stack search fields and buttons to full width instead of cramming them.
+- upload this folder to GitHub (public or private),
+- publish it with GitHub Pages or any other web host,
+- email or share the folder outside people who should see this data.
 
-- **Separate pages, not one app.** Each section is now its own HTML file (`index.html`, `students.html`, `results.html`, `marking.html`, `staff.html`, `retirement.html`, `import.html`) with its own small page-specific script in `js/pages/`. Shared code (`db.js`, `parsers.js`, `common.js`, `data.js`) is loaded once per page from `js/`.
-- **Modular CSS.** `css/tokens.css` holds the design tokens (colors, fonts), `css/base.css` holds shared layout/components, and `css/pages/*.css` holds the handful of rules unique to each page.
-- **Light theme.** Warm ivory surfaces, deep ink-navy text, restrained gold and teal accents, with the red margin-rule from Nigerian exercise books as the recurring structural motif.
-- **Mobile-friendly.** Below ~880px the sidebar becomes a proper off-canvas menu (tap the ☰ icon), tables scroll horizontally, and cards/stat grids reflow to one or two columns.
-- **New: Retirement & Handover page.** School history, the full succession of principals since 2005, the two 2026 retirement ceremonies (Mr Adeoti Oladejo Kolawole and Mr Ogundiran Ogunsola), and the handover to the incoming principal — pulled from the documents in your `RETIREMENT` folder. Bank account numbers on this page are blurred by default, same as staff contact details elsewhere.
-- **Duplicate and bad data cleaned up.** The student registry workbook listed every student twice (once on a "GENERAL" summary sheet, once on their own class sheet) — that's fixed, so the count dropped from 1,614 to the correct **806**. A handful of result-sheet rows also had leftover template-formula artifacts (literal `0`s and broken `#REF!`/`#ERROR!` cells from the original workbooks) which are now filtered out instead of showing up as junk entries. Class labels are now read consistently from each file rather than the messier, occasionally-typo'd in-sheet class column.
-- **Latest marking sheet merged in.** The newer marking workbook you sent (with 3rd-term data) has been merged with the original — 3rd term is new, and its 1st-term figures replaced the earlier version's for the classes it covers.
+Keep it on your own computer. Open `index.html` by double-clicking it, or
+serve the folder locally (`python3 -m http.server` from inside this folder,
+then visit `http://localhost:8000`) if your browser restricts local file
+access for the Import page.
 
-## ⚠️ This build contains real data — keep it local
+## What changed from the previous build
 
-`js/data.js` contains your students' and staff's actual names, grades, attendance, and (for staff) phone numbers, emails, addresses and dates of birth, in plain text. The Retirement page also contains a retiring principal's date of birth and family background (from the printed ceremony programme) and the school's bank account numbers (blurred by default).
+- **Fully separated pages, styles and scripts.** Ten pages
+  (`index`, `about`, `students`, `results`, `marking`, `staff`, `retirement`,
+  `events`, `resources`, `import`), each with its own `css/pages/<name>.css`
+  and `js/pages/<name>.js`, on top of a shared `tokens.css` design system and
+  `base.css` shell.
+- **New design system.** Light and dark themes, a collapsible/mobile sidebar,
+  a command palette (Ctrl/Cmd+K) that searches pages, students and staff,
+  animated stat counters, sortable/filterable tables, and print styles.
+- **Two new pages.** *Events & Speeches* (an archive of official school
+  addresses) and *Inventory & Library* (the full property inventory and
+  226-title library catalogue from the 2026 handover notes).
+- **School Profile and Retirement & Handover pages are now complete.** They
+  include the school's full history, curriculum, PTA and SGB membership,
+  statutory records, infrastructure, both 2026 retirement ceremonies in
+  full (including the outgoing Principal's full career history and the
+  ceremony order of programme for both retirees), and the handover accounts
+  and staffing.
+- **No em or en dashes anywhere on the site**, including inside the
+  imported source documents; they were replaced with clearer phrasing
+  (for example "1991 to 2000" instead of "1991\u20132000").
+- **Student assessment scores have been removed throughout.** The *Term
+  Records* and *Continuous Assessment* pages now show only attendance,
+  subject coverage, and whether a C.A. record exists on file (Complete /
+  Partial / Not started). No mark, total, or average appears anywhere on
+  this site. Everything else from the source files has been kept in full,
+  including staff contact details, which are shown unmasked in this local
+  build.
+- **The Import page still works exactly as before**, so you can refresh the
+  student, results, marking or staff data at any time by dropping in new
+  workbooks; the School Profile, Retirement, Events and Inventory pages are
+  static content and are not affected by imports.
 
-**Because of that:**
-- **Do not** upload this folder to GitHub (public or private), Google Drive shared links, WeTransfer, or anywhere outside the school.
-- **Do not** publish this with GitHub Pages or any other hosting.
-- Keep it on your laptop, for this presentation and similar internal use.
-
-## How to use it
-
-1. Copy the whole folder onto the laptop you'll present from.
-2. Double-click `index.html`. Everything is already loaded — no import step.
-3. Use the sidebar (or the ☰ menu on mobile/tablet) to move between Overview, Student Registry, E-Results, Marking Sheets, Staff Directory, Retirement & Handover, and Import Data.
-4. Staff contact details and the handover bank account numbers are blurred by default — click "👁 Reveal" only if you need to show them.
-
-If double-clicking `index.html` gives your browser trouble with local files, run this from inside the folder and open `http://localhost:8000`:
+## Structure
 
 ```
-python3 -m http.server 8000
+index.html        Overview / dashboard
+about.html         School profile: history, curriculum, PTA, SGB, needs
+students.html       Student registry (search, filter, export)
+results.html        Term records: attendance and subject coverage, no scores
+marking.html        Continuous assessment coverage, no scores
+staff.html           Staff directory: teaching, non-teaching, corps, PTA-appointed
+retirement.html      2026 retirement ceremonies and handover, in full
+events.html          Archive of official school speeches
+resources.html        Full property inventory and library catalogue
+import.html          Import or refresh workbooks
+
+css/tokens.css        Design tokens (colours, type, spacing, light/dark)
+css/base.css           Shared shell, nav, cards, tables, drawer, command palette
+css/pages/*.css        Page-specific overrides
+
+js/data.js              Preloaded data (real information, see warning above)
+js/db.js                 Local-storage wrapper
+js/common.js             Shared utilities (toast, drawer, exports, theme)
+js/nav.js                Sidebar wiring, theme toggle, command palette
+js/parsers.js             Workbook parsing (unchanged from the previous build)
+js/pages/*.js              One renderer per page
 ```
-
-## Updating data later
-
-Go to **Import Data**. Drop in an updated workbook (e.g. next term's e-results or an updated marking sheet) — it replaces just that file's records. You can also drop several files at once on the "drop everything here" zone and the app will figure out which is which.
