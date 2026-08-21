@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Set Passcode · ISCGS Register</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-700:#075934; --green-800:#06432a; --green-900:#053420;
+    --gold-400:#cf9f4c; --gold-600:#966924;
+    --bg:#f5f8f6; --surface:#ffffff; --line:#dbe6e0;
+    --ink:#0d1912; --ink-600:#4d6157;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background:var(--bg); font-family:'Sora',sans-serif; color:var(--ink); padding:24px;
+  }
+  .card{
+    width:100%; max-width:520px; background:var(--surface); border:1px solid var(--line);
+    border-radius:20px; padding:36px; box-shadow:0 18px 44px -18px rgba(6,29,17,.3);
+  }
+  h1{ font-family:'Fraunces',serif; font-size:1.4rem; margin:0 0 6px; }
+  p{ color:var(--ink-600); font-size:.92rem; line-height:1.5; }
+  label{ display:block; font-weight:600; font-size:.85rem; margin:18px 0 6px; }
+  input[type="password"], input[type="text"]{
+    width:100%; padding:11px 13px; border-radius:10px; border:1px solid var(--line);
+    font-size:1rem; background:#f1f6f3;
+  }
+  button{
+    margin-top:20px; width:100%; padding:12px; border:none; border-radius:10px;
+    background:linear-gradient(160deg,var(--gold-400),var(--gold-600));
+    font-weight:600; font-size:.95rem; cursor:pointer; color:var(--ink);
+  }
+  pre{
+    margin-top:20px; background:var(--green-900); color:#eafff2; padding:16px;
+    border-radius:12px; font-size:.82rem; overflow-x:auto; white-space:pre-wrap;
+    display:none;
+  }
+  .note{ margin-top:14px; font-size:.82rem; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Set your passcode</h1>
+    <p>This runs entirely in your browser. Your passcode is never saved or sent anywhere by this page — it only produces a salt and a hash for you to paste into <code>js/lock-config.js</code>.</p>
+
+    <label for="passcode">New passcode</label>
+    <input type="password" id="passcode" autocomplete="off" placeholder="Choose a passcode">
+
+    <label for="passcode2">Confirm passcode</label>
+    <input type="password" id="passcode2" autocomplete="off" placeholder="Type it again">
+
+    <button id="genBtn">Generate config</button>
+
+    <pre id="out"></pre>
+    <p class="note" id="err" style="color:#a5482a;"></p>
+  </div>
+
+<script>
+function randomSalt(){
+  const bytes = crypto.getRandomValues(new Uint8Array(12));
+  return Array.from(bytes).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+async function sha256Hex(str){
+  const enc = new TextEncoder().encode(str);
+  const buf = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+document.getElementById('genBtn').addEventListener('click', async () => {
+  const p1 = document.getElementById('passcode').value;
+  const p2 = document.getElementById('passcode2').value;
+  const err = document.getElementById('err');
+  const out = document.getElementById('out');
+  err.textContent = '';
+  out.style.display = 'none';
+  if(!p1 || p1.length < 4){
+    err.textContent = 'Use at least 4 characters.';
+    return;
+  }
+  if(p1 !== p2){
+    err.textContent = 'Passcodes do not match.';
+    return;
+  }
+  const salt = randomSalt();
+  const hash = await sha256Hex(salt + p1);
+  out.style.display = 'block';
+  out.textContent =
+`Paste these two lines into js/lock-config.js, replacing what's there:
+
+const LOCK_SALT = "${salt}";
+const LOCK_HASH = "${hash}";`;
+});
+</script>
+</body>
+</html>

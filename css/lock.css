@@ -1,0 +1,114 @@
+/* =========================================================
+   lock.css — passcode gate overlay
+   ========================================================= */
+html.iscgs-locking body{
+  visibility:hidden;
+}
+
+.lock-overlay{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  visibility:visible;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(1200px 600px at 15% -10%, var(--green-100), transparent 60%),
+    radial-gradient(900px 500px at 100% 110%, var(--gold-100), transparent 55%),
+    var(--bg);
+  font-family:var(--font-body);
+  padding:var(--space-5);
+}
+
+.lock-card{
+  width:100%;
+  max-width:380px;
+  background:var(--surface-raised);
+  border:1px solid var(--line);
+  border-radius:var(--radius-xl);
+  box-shadow:var(--shadow-lg);
+  padding:var(--space-8) var(--space-7);
+  text-align:center;
+}
+
+.lock-mark{
+  width:52px;
+  height:52px;
+  margin:0 auto var(--space-4);
+  border-radius:var(--radius-md);
+  background:linear-gradient(160deg, var(--green-600), var(--green-800));
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:1.1rem;
+  letter-spacing:.02em;
+  box-shadow:var(--shadow-sm);
+}
+
+.lock-card h1{
+  font-family:var(--font-display);
+  font-size:1.5rem;
+  font-weight:600;
+  color:var(--ink-950);
+  margin:0 0 var(--space-2);
+}
+
+.lock-sub{
+  color:var(--ink-600);
+  font-size:.92rem;
+  margin:0 0 var(--space-6);
+}
+
+#lockForm{
+  display:flex;
+  flex-direction:column;
+  gap:var(--space-3);
+}
+
+.lock-card input[type="password"]{
+  width:100%;
+  box-sizing:border-box;
+  padding:12px 14px;
+  border-radius:var(--radius-sm);
+  border:1px solid var(--line-strong);
+  background:var(--surface-1);
+  color:var(--ink-950);
+  font-size:1rem;
+  text-align:center;
+  letter-spacing:.15em;
+}
+.lock-card input[type="password"]:focus{
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:var(--shadow-glow);
+}
+
+.lock-card .btn{
+  width:100%;
+  justify-content:center;
+  padding:12px 14px;
+  border-radius:var(--radius-sm);
+  border:none;
+  background:linear-gradient(160deg, var(--gold-400), var(--gold-600));
+  color:var(--ink-950);
+  font-weight:600;
+  font-size:.95rem;
+  cursor:pointer;
+}
+.lock-card .btn:hover{ filter:brightness(1.04); }
+
+.lock-error{
+  color:var(--danger);
+  font-size:.85rem;
+  margin:var(--space-3) 0 0;
+}
+
+.lock-foot{
+  margin:var(--space-6) 0 0;
+  color:var(--ink-400);
+  font-size:.78rem;
+}

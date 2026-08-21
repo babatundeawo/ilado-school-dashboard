@@ -21,6 +21,25 @@ serve the folder locally (`python3 -m http.server` from inside this folder,
 then visit `http://localhost:8000`) if your browser restricts local file
 access for the Import page.
 
+## Passcode lock
+
+Every page now opens behind a passcode screen (`js/lock.js` +
+`js/lock-config.js`). A starter passcode was set for you when this was
+built — check the chat where you received this file. To set your own:
+
+1. Open `assets/set-passcode.html` in your browser.
+2. Enter and confirm a new passcode, click **Generate config**.
+3. Copy the two lines it gives you into `js/lock-config.js`, replacing the
+   existing `LOCK_SALT` and `LOCK_HASH`.
+4. Save. The new passcode is active immediately, no rebuild needed.
+
+Only the salted SHA-256 **hash** of your passcode is stored in the file —
+never the passcode itself. This is a UI gate for a single-user local tool,
+not encryption: real protection still comes from keeping this folder off
+any public host and the GitHub repo private, as above. Unlocking lasts for
+your browser session (closing the browser locks it again); five wrong
+attempts trigger a 60-second cooldown.
+
 ## What changed from the previous build
 
 - **Fully separated pages, styles and scripts.** Ten pages

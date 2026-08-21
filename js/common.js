@@ -10,22 +10,12 @@ const Common = (() => {
   }
   function uniq(arr){ return [...new Set(arr.filter(v => v !== null && v !== undefined && v !== ""))]; }
 
-  /* ---------------- Theme (light / dark, persisted) ---------------- */
-  const THEME_KEY = "iscgs_theme";
-  function applyTheme(mode){
-    document.documentElement.setAttribute("data-theme", mode);
-    document.querySelectorAll("[data-theme-btn]").forEach(b => b.classList.toggle("is-active", b.dataset.themeBtn === mode));
+  /* ---------------- Theme (light only, v2) ---------------- */
+  function applyTheme(){
+    document.documentElement.setAttribute("data-theme", "light");
   }
   function initTheme(){
-    const saved = localStorage.getItem(THEME_KEY) || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    applyTheme(saved);
-    document.querySelectorAll("[data-theme-btn]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const mode = btn.dataset.themeBtn;
-        localStorage.setItem(THEME_KEY, mode);
-        applyTheme(mode);
-      });
-    });
+    applyTheme();
   }
 
   /* ---------------- Toast ---------------- */
