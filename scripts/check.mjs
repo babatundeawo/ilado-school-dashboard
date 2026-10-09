@@ -25,7 +25,7 @@ for (const f of htmlFiles) {
   for (const img of html.matchAll(/<img\b[^>]*>/g)) if (!/\salt=/.test(img[0])) err(`${f}: <img> without alt text`);
 
   // Internal links and assets must exist
-  for (const m of html.matchAll(/(?:href|src)="([^"#?:]+?)(?:[?#][^"]*)?"/g)) {
+     for (const m of html.replace(/<base\b[^>]*>/g, "").matchAll(/(?:href|src)="([^"#?:]+?)(?:[?#][^"]*)?"/g)) { // <base> is a prefix, not a file
     const ref = m[1];
     if (ref.startsWith("http") || ref.startsWith("//") || ref.startsWith("data:")) continue;
     const target = normalize(join(dist, ref.startsWith("/") ? ref.slice(1) : ref));
