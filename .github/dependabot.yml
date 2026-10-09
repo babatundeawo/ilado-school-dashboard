@@ -1,0 +1,10 @@
+# Keeps the GitHub Actions used by this project up to date.
+# (The site itself has no npm dependencies; the Firebase library is pinned in site.config.json.)
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "chore"

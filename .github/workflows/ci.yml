@@ -1,0 +1,59 @@
+# Runs on every pull request: builds the site, checks it, runs the automated tests
+# and produces a Lighthouse report. Nothing is published; the live site is untouched.
+name: Checks
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Build, test and report
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4.2.2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4.4.0
+        with:
+          node-version: 22
+
+      - name: Set up Python (for the browser tests)
+        uses: actions/setup-python@v5.6.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: tests/requirements.txt
+
+      - name: Check JavaScript syntax
+        run: |
+          find src scripts -name '*.js' -o -name '*.mjs' | while read -r f; do node --check "$f"; done
+
+      - name: Install the test browser
+        run: |
+          pip install -r tests/requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Build, check and run the end-to-end tests
+        run: |
+          tests/run.sh
+          node scripts/check.mjs
+
+      - name: Lighthouse report (does not fail the build)
+        continue-on-error: true
+        run: npx --yes @lhci/cli@0.14.0 autorun --config=lighthouserc.json
+
+      - name: Keep the built site for download
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: site-build
+          path: dist
+          retention-days: 7

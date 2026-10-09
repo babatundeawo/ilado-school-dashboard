@@ -1,0 +1,72 @@
+rules_version = '2';
+
+// ISCGS Register: Firestore security rules.
+// Everything is DENIED unless a rule below allows it. These rules, not the
+// website, are what protect the school's records.
+//
+//   member   = signed in + email verified + has a document in /members
+//   admin    = a member whose role is "admin"
+//
+// Paste this whole file into Firebase Console > Build > Firestore Database > Rules.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function verified() { return signedIn() && request.auth.token.email_verified == true; }
+    function memberPath() { return /databases/$(database)/documents/members/$(request.auth.uid); }
+    function isMember() { return verified() && exists(memberPath()); }
+    function isAdmin() { return isMember() && get(memberPath()).data.role == 'admin'; }
+
+    // ---- Who is allowed in ----
+    match /members/{uid} {
+      // You can read your own membership; admins can read everyone's.
+      allow get: if verified() && request.auth.uid == uid;
+      allow list: if isAdmin();
+      // Only admins create or change members, with exactly these fields.
+      // An admin cannot demote or remove themselves (so the school is never locked out).
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasOnly(['role', 'email', 'displayName', 'approvedAt', 'approvedBy'])
+        && request.resource.data.role in ['viewer', 'admin']
+        && request.resource.data.email is string
+        && (uid != request.auth.uid || request.resource.data.role == 'admin');
+      allow delete: if isAdmin() && uid != request.auth.uid;
+    }
+
+    // ---- Requests to join ----
+    match /accessRequests/{uid} {
+      allow get: if verified() && (request.auth.uid == uid || isAdmin());
+      allow list: if isAdmin();
+      // A verified person can file exactly one pending request for themselves.
+      allow create: if verified()
+        && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['email', 'displayName', 'requestedAt', 'status'])
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.displayName is string
+        && request.resource.data.displayName.size() <= 100
+        && request.resource.data.requestedAt == request.time
+        && request.resource.data.status == 'pending';
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ---- School records (chunked JSON) ----
+    match /data/{docId} {
+      allow read: if isMember();
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasOnly(['key', 'part', 'parts', 'text', 'updatedAt'])
+        && request.resource.data.text is string;
+      allow delete: if isAdmin();
+    }
+
+    // ---- Administrator-only records (for example bank account details) ----
+    match /restricted/{docId} {
+      allow read, write: if isAdmin();
+    }
+
+    // ---- Everything else: no access ----
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

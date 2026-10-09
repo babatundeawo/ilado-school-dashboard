@@ -1,0 +1,8 @@
+@media print {
+  .sidebar, .topbar, .scrim, .toast-region, .foot, .boot, .gate, .skip-link, .btn, .toolbar { display: none !important; }
+  .app { display: block; }
+  body { background: #fff; color: #000; }
+  .card { box-shadow: none; border-color: #bbb; break-inside: avoid; }
+  .table-wrap { max-height: none; overflow: visible; }
+  .page-head h1 { font-size: 1.8rem; }
+}

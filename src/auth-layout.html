@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+{{baseTag}}
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="{{csp}}">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0c6342">
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+{{canonical}}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{siteName}}">
+<meta property="og:title" content="{{title}}">
+<meta property="og:description" content="{{description}}">
+{{og}}
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..700&family=Instrument+Serif:ital@0;1&display=swap">
+<script type="importmap">{{importMap}}</script>
+<script>(function(){try{var t=localStorage.getItem("iscgs_theme");if(t!=="light"&&t!=="dark"){t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body class="auth-body" data-page="{{id}}" data-build="{{version}}">
+{{sprite}}
+<a class="skip-link" href="#main">Skip to content</a>
+<main class="auth-shell" id="main" tabindex="-1">
+{{content}}
+</main>
+<div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+<noscript><div class="noscript"><h2>JavaScript is required</h2><p>The {{siteName}} protects school records behind a sign-in, which needs JavaScript. Please turn it on in your browser settings and reload this page.</p></div></noscript>
+<script type="module" src="assets/js/pages/{{script}}.js"></script>
+</body>
+</html>

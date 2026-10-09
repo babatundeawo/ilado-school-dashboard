@@ -1,0 +1,24 @@
+# Build output and generated settings
+dist/
+src/assets/js/firebase-config.js
+
+# Private school data must never be committed
+js/data.js
+data.js
+*.code
+pass.code
+*.xlsx
+*.xls
+*.xlsm
+
+# Keys and environment files
+.env
+.env.*
+*serviceAccount*.json
+*-adminsdk-*.json
+
+# Tooling
+node_modules/
+__pycache__/
+tests/_sample-data.js
+.DS_Store

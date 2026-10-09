@@ -1,0 +1,50 @@
+<section class="auth-hero" aria-label="About this site">
+  <div class="brand"><span class="brand-mark" aria-hidden="true">IS</span><div class="brand-text"><strong>ISCGS Register</strong><span>Ilado-Sagbo Community Grammar School</span></div></div>
+  <div class="stack">
+    <h1>The school's records, <em>kept safe.</em></h1>
+    <p>A private register for students, staff and school records. Only approved members of staff can sign in.</p>
+  </div>
+  <ul class="auth-points">
+    <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"/></svg><span>Records are stored in a protected database, not on the public website.</span></li>
+    <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-mail"/></svg><span>New accounts verify their email, then wait for administrator approval.</span></li>
+    <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg><span>Sessions end automatically after a period of inactivity.</span></li>
+  </ul>
+</section>
+<section class="auth-panel" aria-labelledby="authTitle">
+  <div class="auth-card">
+    <div class="stack"><h2 id="authTitle">Welcome back</h2><p class="lede" id="authLede">Sign in to open the register.</p></div>
+    <div id="authAlert" role="alert" aria-live="assertive"></div>
+    <div class="auth-tabs" role="tablist" aria-label="Account">
+      <button type="button" role="tab" id="tabIn" aria-selected="true" aria-controls="formIn">Sign in</button>
+      <button type="button" role="tab" id="tabUp" aria-selected="false" aria-controls="formUp" tabindex="-1">Create account</button>
+    </div>
+
+    <form id="formIn" class="stack" novalidate aria-labelledby="tabIn">
+      <div class="field"><label for="inEmail">Email</label><input class="input" id="inEmail" name="email" type="email" autocomplete="email" required inputmode="email"><span class="field-error" id="inEmailErr" hidden></span></div>
+      <div class="field"><label for="inPass">Password</label><input class="input" id="inPass" name="password" type="password" autocomplete="current-password" required><span class="field-error" id="inPassErr" hidden></span></div>
+      <label class="check"><input type="checkbox" id="inRemember"> Keep me signed in on this device</label>
+      <button class="btn btn-primary btn-block" id="inSubmit" type="submit">Sign in</button>
+      <button class="btn btn-ghost btn-block" id="forgotBtn" type="button">Forgot your password?</button>
+    </form>
+
+    <form id="formUp" class="stack" novalidate hidden aria-labelledby="tabUp">
+      <div class="field"><label for="upName">Full name</label><input class="input" id="upName" name="name" type="text" autocomplete="name" required><span class="field-error" id="upNameErr" hidden></span></div>
+      <div class="field"><label for="upEmail">Email</label><input class="input" id="upEmail" name="email" type="email" autocomplete="email" required inputmode="email"><span class="field-error" id="upEmailErr" hidden></span></div>
+      <div class="field"><label for="upPass">Password</label><input class="input" id="upPass" name="password" type="password" autocomplete="new-password" minlength="8" required aria-describedby="upPassHint"><span class="field-hint" id="upPassHint">At least 8 characters.</span><span class="field-error" id="upPassErr" hidden></span></div>
+      <label class="check"><input type="checkbox" id="upRemember"> Keep me signed in on this device</label>
+      <button class="btn btn-primary btn-block" id="upSubmit" type="submit">Create account</button>
+      <p class="fine">After you verify your email, a school administrator must approve your account before you can see any records.</p>
+    </form>
+
+    <form id="formReset" class="stack" novalidate hidden aria-label="Reset password">
+      <div class="field"><label for="rsEmail">Email</label><input class="input" id="rsEmail" name="email" type="email" autocomplete="email" required inputmode="email"><span class="field-error" id="rsEmailErr" hidden></span></div>
+      <button class="btn btn-primary btn-block" id="rsSubmit" type="submit">Send reset link</button>
+      <button class="btn btn-ghost btn-block" id="rsBack" type="button">Back to sign in</button>
+    </form>
+
+    <div id="googleWrap" class="stack" hidden>
+      <div class="divider">or</div>
+      <button class="btn btn-block" id="googleBtn" type="button">Continue with Google</button>
+    </div>
+  </div>
+</section>

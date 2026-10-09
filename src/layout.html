@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="{{csp}}">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0c6342">
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+{{canonical}}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{siteName}}">
+<meta property="og:title" content="{{title}}">
+<meta property="og:description" content="{{description}}">
+{{og}}
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..700&family=Instrument+Serif:ital@0;1&display=swap">
+<script type="importmap">{{importMap}}</script>
+<script>(function(){try{var t=localStorage.getItem("iscgs_theme");if(t!=="light"&&t!=="dark"){t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="modulepreload" href="assets/js/app.js">
+</head>
+<body class="is-booting" data-page="{{id}}" data-access="{{access}}" data-build="{{version}}">
+{{sprite}}
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="boot" id="boot" role="status">
+  <div class="boot-mark" aria-hidden="true">IS</div>
+  <p>Checking your sign-in&hellip;</p>
+</div>
+<noscript><div class="noscript"><h2>JavaScript is required</h2><p>The {{siteName}} protects school records behind a sign-in, which needs JavaScript. Please turn it on in your browser settings and reload this page.</p></div></noscript>
+<div class="gate" id="gate" hidden></div>
+
+<div class="app" id="app" hidden>
+  <aside class="sidebar" id="sidebar" aria-label="Sidebar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">IS</span>
+      <div class="brand-text"><strong>{{siteName}}</strong><span>{{school}}</span></div>
+    </div>
+    <nav class="nav" aria-label="Primary">{{nav}}</nav>
+    <div class="sidebar-foot">
+      <p class="protect-chip"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"/></svg> Protected: sign-in required</p>
+    </div>
+  </aside>
+  <div class="scrim" id="scrim" hidden></div>
+
+  <div class="main-col">
+    <header class="topbar" id="topbar">
+      <div class="progress" id="progress" aria-hidden="true"></div>
+      <button class="icon-btn nav-trigger" id="navTrigger" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open menu"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-menu"/></svg></button>
+      <button class="search-trigger" id="searchTrigger" type="button" aria-haspopup="dialog" aria-label="Search pages, students, staff">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search"/></svg>
+        <span class="search-text">Search pages, students, staff</span>
+        <kbd class="kbd" aria-hidden="true">Ctrl K</kbd>
+      </button>
+      <span class="chip chip-session">{{session}}</span>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch to dark theme"><svg class="icon icon-sun" aria-hidden="true" focusable="false"><use href="#i-sun"/></svg><svg class="icon icon-moon" aria-hidden="true" focusable="false"><use href="#i-moon"/></svg></button>
+      <div class="account" id="account">
+        <button class="avatar-btn" id="accountBtn" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Account menu"><span id="accountInitials">?</span></button>
+        <div class="menu" id="accountMenu" role="menu" hidden>
+          <div class="menu-head"><strong id="accountName">Signed in</strong><span id="accountEmail"></span><span class="pill pill-green" id="accountRole"></span></div>
+          <button class="menu-item" id="signOutBtn" role="menuitem" type="button"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-logout"/></svg> Sign out</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main" id="main" tabindex="-1">
+      <header class="page-head">
+        <p class="eyebrow">{{siteName}}</p>
+        <h1>{{heading}}</h1>
+        <p class="lede">{{lede}}</p>
+      </header>
+      <div class="page" id="pageContent" aria-live="polite">
+{{content}}
+      </div>
+    </main>
+    <footer class="foot"><span>{{school}}, {{location}}</span><span>Build {{version}}</span></footer>
+  </div>
+</div>
+
+<div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+<script type="module" src="assets/js/pages/{{script}}.js"></script>
+</body>
+</html>

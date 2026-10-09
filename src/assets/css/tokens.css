@@ -1,0 +1,114 @@
+/* =========================================================
+   Design tokens: the single source of truth for the look.
+
+   BRAND DIRECTION
+   Quietly authoritative. A modern institutional register for a
+   Nigerian community school: forest green for trust and heritage,
+   brass for achievement, warm stone neutrals for calm reading,
+   an editorial serif for dignity and a clean sans for data.
+
+   To rebrand, change the values in this file only.
+   ========================================================= */
+:root {
+  /* ---- Brand: forest green ---- */
+  --green-50: #effaf4;  --green-100: #d6f3e2; --green-200: #aee6c8; --green-300: #78d1a5;
+  --green-400: #4cc28c; --green-500: #1b9a64; --green-600: #0f7c50; --green-700: #0c6342;
+  --green-800: #0b4f36; --green-900: #09402d; --green-950: #03241a;
+  /* ---- Accent: brass ---- */
+  --brass-100: #fbf1d9; --brass-300: #ecc96f; --brass-500: #c8921a; --brass-600: #a4740f; --brass-700: #7f590b;
+
+  /* ---- Semantic (light) ---- */
+  --bg: #f7f7f3;
+  --surface: #ffffff;
+  --surface-2: #f1f1eb;
+  --surface-3: #e9e9e1;
+  --line: #e4e4dc;
+  --line-strong: #cdcdc1;
+  --ink: #171714;
+  --ink-2: #4a4a42;
+  --ink-3: #66665a;
+  --brand: #0c6342;
+  --brand-hover: #0a5237;
+  --brand-soft: #e3f3ea;
+  --brand-ink: #0a4d33;
+  --on-brand: #ffffff;
+  --accent: #c8921a;
+  --accent-ink: #7f590b;
+  --accent-soft: #fbf1d9;
+  --success: #0c6342;  --success-soft: #e3f3ea;
+  --warning: #8a4f00;  --warning-soft: #fdf0d8;
+  --danger: #b42318;   --danger-soft: #fdecea;
+  --info: #1d5fa8;     --info-soft: #e6f0fb;
+  --focus: #1d5fa8;
+  --hero-from: #0b4f36; --hero-to: #03241a;
+  --shadow-1: 0 1px 2px rgb(23 23 20 / .06), 0 1px 1px rgb(23 23 20 / .04);
+  --shadow-2: 0 8px 24px -8px rgb(23 23 20 / .14), 0 2px 6px rgb(23 23 20 / .06);
+  --shadow-3: 0 24px 60px -16px rgb(23 23 20 / .28);
+  --glow: 0 0 0 1px rgb(12 99 66 / .18), 0 10px 30px -10px rgb(12 99 66 / .35);
+
+  /* ---- Typography ---- */
+  --font-display: "Instrument Serif", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-sans: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --text-xs: clamp(.75rem, .73rem + .1vw, .8125rem);
+  --text-sm: clamp(.8125rem, .79rem + .12vw, .875rem);
+  --text-base: clamp(.9375rem, .91rem + .14vw, 1rem);
+  --text-lg: clamp(1.0625rem, 1.03rem + .2vw, 1.1875rem);
+  --text-xl: clamp(1.25rem, 1.18rem + .4vw, 1.5rem);
+  --text-2xl: clamp(1.625rem, 1.45rem + .9vw, 2.25rem);
+  --text-3xl: clamp(2.125rem, 1.75rem + 1.9vw, 3.5rem);
+  --text-4xl: clamp(2.5rem, 1.9rem + 3vw, 4.5rem);
+  --leading-body: 1.6;
+  --tracking-tight: -.022em;
+
+  /* ---- Spacing (4px base) ---- */
+  --s-1: .25rem; --s-2: .5rem; --s-3: .75rem; --s-4: 1rem; --s-5: 1.25rem; --s-6: 1.5rem;
+  --s-8: 2rem; --s-10: 2.5rem; --s-12: 3rem; --s-16: 4rem;
+  --gutter: clamp(1rem, .6rem + 2vw, 2.5rem);
+
+  /* ---- Shape ---- */
+  --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 22px; --r-pill: 999px;
+
+  /* ---- Layers ---- */
+  --z-sidebar: 40; --z-topbar: 30; --z-scrim: 35; --z-menu: 50; --z-modal: 80; --z-toast: 90;
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  --dur-1: 120ms; --dur-2: 220ms; --dur-3: 420ms;
+
+  --sidebar-w: 17rem;
+  --topbar-h: 4rem;
+  --topbar-h-sm: 3.25rem;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg: #0b100e;
+  --surface: #121915;
+  --surface-2: #18211c;
+  --surface-3: #202b25;
+  --line: #25302a;
+  --line-strong: #364540;
+  --ink: #edf0ea;
+  --ink-2: #b6beb7;
+  --ink-3: #909a92;
+  --brand: #4cc28c;
+  --brand-hover: #78d1a5;
+  --brand-soft: #0f2a1e;
+  --brand-ink: #aee6c8;
+  --on-brand: #03160e;
+  --accent: #e0aa3a;
+  --accent-ink: #ecc96f;
+  --accent-soft: #2a2110;
+  --success: #4cc28c;  --success-soft: #0f2a1e;
+  --warning: #e8b45a;  --warning-soft: #2a2110;
+  --danger: #f08a80;   --danger-soft: #331512;
+  --info: #7db4ee;     --info-soft: #11233a;
+  --focus: #7db4ee;
+  --hero-from: #0f3a29; --hero-to: #06130d;
+  --shadow-1: 0 1px 2px rgb(0 0 0 / .4);
+  --shadow-2: 0 10px 28px -8px rgb(0 0 0 / .6);
+  --shadow-3: 0 28px 70px -16px rgb(0 0 0 / .75);
+  --glow: 0 0 0 1px rgb(76 194 140 / .25), 0 10px 30px -10px rgb(76 194 140 / .3);
+  color-scheme: dark;
+}
